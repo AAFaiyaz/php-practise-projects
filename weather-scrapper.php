@@ -1,4 +1,9 @@
 <?php
+  
+  if($_GET['city']){
+    $foreastPage = file_get_contents("https://www.weather-forecast.com/locations/London/forecasts/latest");
+      echo $foreastPage;
+  }
 
 ?>
 
@@ -20,11 +25,30 @@
         body {
             background:none;
         }
+
+        .container {
+          text-align: center;
+          margin-top:200px;
+          width: 500px;
+        }
+        input {
+          margin:20px;
+        }
     </style>
   </head>
   <body>
     <div class="container">
         <h1>What's The Weather</h1>
+        
+        
+        <form>
+          <div class="form-group">
+            <label for="city">Enter the name of a city.</label>
+            <input type="text" name="city" class="form-control" id="city" placeholder="Eg. Berlin, London">
+           </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+  
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
   </body>
