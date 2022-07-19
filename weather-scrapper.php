@@ -1,8 +1,12 @@
 <?php
   
   if($_GET['city']){
-    $foreastPage = file_get_contents("https://www.weather-forecast.com/locations/London/forecasts/latest");
-      echo $foreastPage;
+    $urlContents = file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=".$_GET['city']."&appid=57bf516b2102c5e5c6b755a3cd2c1dd1");
+    $weatherArray = json_decode($urlContents,true);
+
+    // print_r($weatherArray);
+
+    
   }
 
 ?>
@@ -28,11 +32,15 @@
 
         .container {
           text-align: center;
-          margin-top:200px;
+          margin-top:100px;
           width: 500px;
         }
         input {
           margin:20px;
+        }
+
+        #weather{
+          margin-top: 15px;
         }
     </style>
   </head>
@@ -48,6 +56,16 @@
            </div>
           <button type="submit" class="btn btn-primary">Submit</button>
         </form>
+
+        <div id="weather">
+          <?php
+            if($weather){
+              echo '<div class="alert alert-success" role="alert">
+              '. $weather.
+            '</div>';
+            }
+          ?>
+        </div>
   
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
