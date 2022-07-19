@@ -1,13 +1,31 @@
 <?php
+
+  $weather = "";
+  $error = "";
   
   if($_GET['city']){
-    $urlContents = file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=".$_GET['city']."&appid=57bf516b2102c5e5c6b755a3cd2c1dd1");
-    $weatherArray = json_decode($urlContents,true);
-
+    $urlContents = @file_get_contents("https://api.openweathermap.org/data/2.5/weather?q=".$_GET['city']."&appid=57bf516b2102c5e5c6b755a3cd2c1dd1");
+    
+      // var_dump($urlContents);
+    $weatherArray = json_decode($urlContents,true); // true is for associative array
     // print_r($weatherArray);
+    if ($weatherArray['cod'] == 200) {
+
+    $weather = "The weather in ".$_GET['city']." is currently '".$weatherArray['weather'][0]['description']."'. ";
+    $temperaturInCelcius = intval($weatherArray['main']['temp'] - 273);
+    $windSpeed = $weatherArray['wind']['speed'];
+
+    // $weather .= " The temperature is ".round($temperaturInCelcius)."&deg;c";
+    $weather .= " The temperature is ".$temperaturInCelcius."&deg;c and the wind speed is ".$windSpeed.". ";
+  } else {
+    $error = "Cound not find teh city";
+  }
+
+}
 
     
-  }
+
+    
 
 ?>
 
@@ -63,6 +81,10 @@
               echo '<div class="alert alert-success" role="alert">
               '. $weather.
             '</div>';
+            } else {
+              echo '<div class="alert alert-danger" role="alert">
+              '.$error.
+              '</div>';
             }
           ?>
         </div>
